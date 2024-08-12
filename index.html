@@ -29,22 +29,28 @@
             background-color: #0056b3;
         }
     </style>
-    <script type="text/javascript">
+        <script type="text/javascript">
         function openApp() {
             const appScheme = 'xuredeal://chat/1/Member';
-            const appStoreURL = 'https://apps.apple.com/ph/app/xure/id6463198157'; // Replace with your App Store ID
-            const playStoreURL = 'https://play.google.com/store/apps/details?id=com.xdeal&hl=en_US'; // Replace with your Play Store package name
-
+            const appStoreURL = 'https://apps.apple.com/ph/app/xure/id6463198157';
+            const playStoreURL = 'https://play.google.com/store/apps/details?id=com.xdeal&hl=en_US';
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             const storeURL = isIOS ? appStoreURL : playStoreURL;
-
-            // Attempt to open the app using the custom URI scheme
+    
+            let hasNavigatedAway = false;
+    
             window.location.href = appScheme;
-
-            // Fallback to store if the app is not installed
+    
+            // Listen for the blur event to detect when the app opens
+            window.addEventListener('blur', () => {
+                hasNavigatedAway = true;
+            });
+    
             setTimeout(() => {
-                window.location.href = storeURL;
-            }, 1500);
+                if (!hasNavigatedAway) {
+                    window.location.href = storeURL;
+                }
+            }, 3000);
         }
     </script>
 </head>
